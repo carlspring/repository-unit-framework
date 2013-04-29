@@ -17,7 +17,7 @@
         <module>repository-unit-parent</module>
         <module>repository-unit-webapp</module>
         <module>repository-unit-jetty-launcher</module>
-        <module>repository-unit-maven-plugin</module>
+        <!--module>repository-unit-maven-plugin</module-->
     </modules>
 
 </project>
