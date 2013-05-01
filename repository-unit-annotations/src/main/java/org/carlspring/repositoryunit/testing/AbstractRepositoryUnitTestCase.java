@@ -1,9 +1,6 @@
 package org.carlspring.repositoryunit.testing;
 
-import org.carlspring.repositoryunit.annotations.ArtifactResource;
-import org.carlspring.repositoryunit.annotations.ArtifactResourceMapper;
-import org.carlspring.repositoryunit.annotations.InjectionException;
-import org.carlspring.repositoryunit.annotations.RequiresArtifactResource;
+import org.carlspring.repositoryunit.annotations.*;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
@@ -22,6 +19,8 @@ public abstract class AbstractRepositoryUnitTestCase
     {
         inject();
     }
+
+    /* IoC part start.*/
 
     private void inject()
             throws InjectionException
@@ -53,5 +52,63 @@ public abstract class AbstractRepositoryUnitTestCase
 
         return annotations;
     }
+
+    /* IoC part end. */
+
+    /* Mock methods start. */
+    public void addArtifactResource(String repository,
+                                    String groupId,
+                                    String artifactId,
+                                    String version,
+                                    long length)
+    {
+        addArtifactResource(repository,
+                            groupId,
+                            artifactId,
+                            "jar",
+                            version,
+                            "",
+                            length,
+                            ArtifactExistenceState.EXISTS);
+    }
+
+    public void addArtifactResource(String repository,
+                                    String groupId,
+                                    String artifactId,
+                                    String version,
+                                    String type,
+                                    long length)
+    {
+        addArtifactResource(repository,
+                            groupId,
+                            artifactId,
+                            type,
+                            version,
+                            "",
+                            length,
+                            ArtifactExistenceState.EXISTS);
+    }
+
+    public void addArtifactResource(String repository,
+                                    String groupId,
+                                    String artifactId,
+                                    String version,
+                                    String type,
+                                    String classifier,
+                                    long length,
+                                    ArtifactExistenceState state)
+    {
+        ArtifactResource resource = ArtifactResourceMapper.getArtifactResourceInstance(repository,
+                                                                                       groupId,
+                                                                                       artifactId,
+                                                                                       type,
+                                                                                       version,
+                                                                                       classifier,
+                                                                                       length,
+                                                                                       state);
+        ArtifactResourceMapper.addResource(resource);
+    }
+
+    /* Mock methods end. */
 
 }

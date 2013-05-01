@@ -1,9 +1,5 @@
 package org.carlspring.repositoryunit.annotations;
 
-import org.apache.maven.artifact.Artifact;
-import org.apache.maven.artifact.DefaultArtifact;
-import org.apache.maven.artifact.versioning.VersionRange;
-
 /**
  * @author mtodorov
  */

@@ -1,5 +1,6 @@
 package org.carlspring.repositoryunit.annotations;
 
+import java.lang.annotation.Annotation;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -57,6 +58,73 @@ public class ArtifactResourceMapper
         {
             artifactResources.get(ga).remove(version);
         }
+    }
+
+    public static ArtifactResource getArtifactResourceInstance(final String repository,
+                                                               final String groupId,
+                                                               final String artifactId,
+                                                               final String version,
+                                                               final String type,
+                                                               final String classifier,
+                                                               final long length,
+                                                               final ArtifactExistenceState state)
+    {
+        return new ArtifactResource() {
+
+            @Override
+            public String repository()
+            {
+                return repository;
+            }
+
+            @Override
+            public String groupId()
+            {
+                return groupId;
+            }
+
+            @Override
+            public String artifactId()
+            {
+                return artifactId;
+            }
+
+            @Override
+            public String version()
+            {
+                return version;
+            }
+
+            @Override
+            public String type()
+            {
+                return type;
+            }
+
+            @Override
+            public String classifier()
+            {
+                return classifier;
+            }
+
+            @Override
+            public long length()
+            {
+                return length;
+            }
+
+            @Override
+            public ArtifactExistenceState state()
+            {
+                return state;
+            }
+
+            @Override
+            public Class<? extends Annotation> annotationType()
+            {
+                return ArtifactResource.class;
+            }
+        };
     }
 
 }
