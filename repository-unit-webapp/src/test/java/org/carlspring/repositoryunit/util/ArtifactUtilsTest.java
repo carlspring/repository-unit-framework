@@ -3,9 +3,7 @@ package org.carlspring.repositoryunit.util;
 import org.apache.maven.artifact.Artifact;
 import org.junit.Test;
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.*;
 
 /**
  * @author mtodorov
@@ -59,5 +57,26 @@ public class ArtifactUtilsTest
 
         System.out.println(artifact.toString());
     }
+
+    @Test
+    public void testArtifactToPathWithoutClassifier()
+    {
+        final String pathForObjectConstruction = "org/carlspring/maven/foo/1.0-SNAPSHOT/foo-1.0-SNAPSHOT.jar";
+        Artifact artifact = ArtifactUtils.convertPathToArtifact(pathForObjectConstruction);
+        final String path = ArtifactUtils.convertArtifactToPath(artifact);
+
+        assertEquals("Failed to properly convert the artifact to a path!", pathForObjectConstruction, path);
+    }
+
+    @Test
+    public void testArtifactToPathWithClassifier()
+    {
+        final String pathForObjectConstruction = "org/carlspring/maven/foo/1.0-SNAPSHOT/foo-1.0-SNAPSHOT-jdk15.jar";
+        Artifact artifact = ArtifactUtils.convertPathToArtifact(pathForObjectConstruction);
+        final String path = ArtifactUtils.convertArtifactToPath(artifact);
+
+        assertEquals("Failed to properly convert the artifact to a path!", pathForObjectConstruction, path);
+    }
+
 
 }

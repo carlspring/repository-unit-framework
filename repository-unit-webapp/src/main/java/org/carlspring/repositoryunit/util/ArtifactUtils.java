@@ -112,4 +112,20 @@ public class ArtifactUtils
                                    new DefaultArtifactHandler(type));
     }
 
+    public static String convertArtifactToPath(Artifact artifact)
+    {
+        String path = "";
+
+        path += artifact.getGroupId().replaceAll("\\.", "/") + "/";
+        path += artifact.getArtifactId() + "/";
+        path += artifact.getVersion() + "/";
+        path += artifact.getArtifactId() + "-";
+        path += artifact.getVersion();
+        path += artifact.getClassifier() != null && !artifact.getClassifier().equals("") ?
+                "-" + artifact.getClassifier() : "";
+        path += "." + artifact.getType();
+
+        return path;
+    }
+
 }
