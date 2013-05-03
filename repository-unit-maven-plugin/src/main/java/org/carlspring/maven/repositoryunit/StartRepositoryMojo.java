@@ -22,7 +22,7 @@ import org.carlspring.repositoryunit.servers.jetty.JettyLauncher;
 
 /**
  * @author mtodorov
- * @goal   start
+ * @goal start
  */
 public class StartRepositoryMojo
         extends AbstractRepositoryMojo
@@ -37,34 +37,51 @@ public class StartRepositoryMojo
         {
             initializeJettyLauncher();
 
-            final JettyLauncher launcher = getJettyLauncher();
-            Thread thread = new Thread()
-            {
-                @Override
-                public void run()
-                {
-                    try
-                    {
-                        launcher.startWarInstance();
-                    }
-                    catch (Exception e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-            };
-
+            Thread thread = createThread(getJettyLauncher());
             thread.start();
 
-            while (launcher.getServer() == null || launcher.getServer().isStarting())
+            long total = 0;
+            while (getJettyLauncher().getServer() == null ||
+                   getJettyLauncher().getServer().isStarting())
             {
                 Thread.sleep(250l);
+
+                total += 250;
+                if (total / 1000 >= timeout)
+                {
+                    throw new MojoExecutionException("Failed to stop Jetty within " + timeout + " seconds!");
+                }
             }
         }
         catch (Exception e)
         {
             throw new MojoExecutionException(e.getMessage(), e);
         }
+    }
+
+    private Thread createThread(final JettyLauncher launcher)
+    {
+        return new Thread()
+        {
+            @Override
+            public void run()
+            {
+                try
+                {
+                    launcher.startWarInstance();
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        };
+    }
+
+    @Override
+    protected Object getImplementation()
+    {
+        return this;
     }
 
 }

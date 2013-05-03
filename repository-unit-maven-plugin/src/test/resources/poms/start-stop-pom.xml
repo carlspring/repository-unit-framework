@@ -1,0 +1,35 @@
+<project>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.carlspring.repositoryunit</groupId>
+    <artifactId>repository-test-project</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.carlspring.repositoryunit</groupId>
+                <artifactId>repository-unit-maven-plugin</artifactId>
+                <version>1.0-SNAPSHOT</version>
+
+                <configuration>
+                </configuration>
+
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>start</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

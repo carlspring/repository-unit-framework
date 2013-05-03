@@ -18,6 +18,7 @@ package org.carlspring.maven.repositoryunit;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.eclipse.jetty.server.Server;
 
 /**
  * @author mtodorov
@@ -32,7 +33,35 @@ public class StopRepositoryMojo
     public void execute()
             throws MojoExecutionException, MojoFailureException
     {
+        try
+        {
+            final Server server = getJettyLauncher().getServer();
+            server.stop();
 
+            getLog().info("Jetty status: " + server.getState());
+
+            long total = 0;
+            while (server.isStopping() || !server.isStopped())
+            {
+                Thread.sleep(250l);
+
+                total += 250;
+                if (total / 1000 >= timeout)
+                {
+                    throw new MojoExecutionException("Failed to stop Jetty within " + timeout + " seconds!");
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            throw new MojoExecutionException(e.getMessage(), e);
+        }
+    }
+
+    @Override
+    protected Object getImplementation()
+    {
+        return this;
     }
 
 }

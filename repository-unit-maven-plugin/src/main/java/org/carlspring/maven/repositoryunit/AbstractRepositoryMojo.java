@@ -17,8 +17,6 @@ package org.carlspring.maven.repositoryunit;
  */
 
 import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.settings.Settings;
 import org.carlspring.ioc.InjectionException;
@@ -29,11 +27,12 @@ import org.carlspring.repositoryunit.servers.jetty.JettyLauncher;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Properties;
 
 /**
  * @author mtodorov
  */
-@PropertiesResources(resources = { "META-INF/properties/repository-test-maven-plugin.properties" })
+@PropertiesResources(resources = { "META-INF/properties/repository-unit-maven-plugin.properties" })
 public abstract class AbstractRepositoryMojo
         extends AbstractMojo
 {
@@ -66,16 +65,24 @@ public abstract class AbstractRepositoryMojo
      */
     Settings settings;
 
-    @PropertyValue (key = "repository.unit.version")
+    @PropertyValue(key = "repository.unit.version")
     String version;
 
     static JettyLauncher jettyLauncher;
+
+    /**
+     * The amount of of seconds to wait before before timing out on a startup/shutdown.
+     *
+     * @parameter expression="${timeout}" default-value=15
+     * @readonly
+     */
+    long timeout;
 
 
     public void initializeJettyLauncher()
             throws IOException, InjectionException
     {
-        PropertyValueInjector.inject(this.getClass());
+        PropertyValueInjector.inject(getImplementation());
 
         final String repositoryUnitBasedir = basedir + "/target/repository-unit";
 
@@ -83,13 +90,23 @@ public abstract class AbstractRepositoryMojo
         //noinspection ResultOfMethodCallIgnored
         repoDir.mkdirs();
 
+        final String war = settings.getLocalRepository() +
+                           "/org/carlspring/repositoryunit/repository-unit-webapp/" +
+                           getVersion() +
+                           "/repository-unit-webapp-" + getVersion() + ".war";
+
+        final File warFile = new File(war).getCanonicalFile();
+        if (!warFile.exists())
+        {
+            throw new IOException("Failed to setup Jetty instance! Could not load WAR file '" + warFile.getCanonicalPath() +"'!");
+        }
+
         jettyLauncher = new JettyLauncher(basedir);
         jettyLauncher.setBasedir(repositoryUnitBasedir);
-        jettyLauncher.setWar(settings.getLocalRepository() +
-                             "/org/carlspring/repository-test-webapp/" +
-                             getVersion() +
-                             "/repository-test-webapp-" + getVersion() + ".war");
+        jettyLauncher.setWar(war);
     }
+
+    protected abstract Object getImplementation();
 
     public MavenProject getProject()
     {
@@ -139,6 +156,16 @@ public abstract class AbstractRepositoryMojo
     public void setJettyLauncher(JettyLauncher jettyLauncher)
     {
         this.jettyLauncher = jettyLauncher;
+    }
+
+    public long getTimeout()
+    {
+        return timeout;
+    }
+
+    public void setTimeout(long timeout)
+    {
+        this.timeout = timeout;
     }
 
     public String getVersion()
