@@ -38,18 +38,18 @@
                     <execution>
                         <id>jetty-run</id>
 
-                        <phase>none</phase>
+                        <phase>test-compile</phase>
                         <goals>
                             <goal>run</goal>
                         </goals>
 
                         <configuration>
                             <scanIntervalSeconds>10</scanIntervalSeconds>
+                            <daemon>true</daemon>
 
                             <webApp>
                                 <contextPath>/</contextPath>
                             </webApp>
-
                         </configuration>
                     </execution>
                 </executions>
@@ -58,6 +58,17 @@
     </build>
 
     <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>repository-unit-commons</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>repository-unit-client</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>repository-unit-annotations</artifactId>
