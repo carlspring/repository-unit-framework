@@ -1,5 +1,7 @@
 package org.carlspring.repositoryunit.annotations;
 
+import org.apache.maven.artifact.Artifact;
+
 import java.lang.annotation.Annotation;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -58,6 +60,21 @@ public class ArtifactResourceMapper
         {
             artifactResources.get(ga).remove(version);
         }
+    }
+
+    public static ArtifactResource getArtifactResourceInstance(String repository,
+                                                               Artifact artifact,
+                                                               long length,
+                                                               ArtifactExistenceState state)
+    {
+        return getArtifactResourceInstance(repository,
+                                           artifact.getGroupId(),
+                                           artifact.getArtifactId(),
+                                           artifact.getVersion(),
+                                           artifact.getType(),
+                                           artifact.getClassifier(),
+                                           length,
+                                           state);
     }
 
     public static ArtifactResource getArtifactResourceInstance(final String repository,
