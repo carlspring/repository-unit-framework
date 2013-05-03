@@ -34,23 +34,34 @@
                 <artifactId>jetty-maven-plugin</artifactId>
                 <version>9.0.0.v20130308</version>
 
+                <configuration>
+                    <scanIntervalSeconds>10</scanIntervalSeconds>
+                    <daemon>true</daemon>
+
+                    <webApp>
+                        <contextPath>/</contextPath>
+                    </webApp>
+
+                    <stopPort>19081</stopPort>
+                    <stopKey>53AS9DS1FD8E3WEFEW9GR1ER8G2ER0WE31</stopKey>
+                </configuration>
+
                 <executions>
                     <execution>
-                        <id>jetty-run</id>
+                        <id>jetty-start</id>
 
                         <phase>test-compile</phase>
                         <goals>
                             <goal>run</goal>
                         </goals>
+                    </execution>
+                    <execution>
+                        <id>jetty-stop</id>
 
-                        <configuration>
-                            <scanIntervalSeconds>10</scanIntervalSeconds>
-                            <daemon>true</daemon>
-
-                            <webApp>
-                                <contextPath>/</contextPath>
-                            </webApp>
-                        </configuration>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
