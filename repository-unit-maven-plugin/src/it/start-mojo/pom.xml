@@ -56,6 +56,12 @@
             <artifactId>repository-unit-jetty-launcher</artifactId>
             <version>${version.repository.unit}</version>
         </dependency>
+        <dependency>
+            <groupId>org.carlspring.repositoryunit</groupId>
+            <artifactId>repository-unit-test</artifactId>
+            <version>${version.repository.unit}</version>
+            <scope>test</scope>
+        </dependency>
 
         <dependency>
             <groupId>com.sun.jersey</groupId>

@@ -12,58 +12,40 @@
         <relativePath>../repository-unit-parent</relativePath>
     </parent>
 
-    <artifactId>repository-unit-webapp</artifactId>
+    <artifactId>repository-unit-test</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
-    <name>Repository Unit: Webapp</name>
+    <name>Repository Unit: Test</name>
 
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                    <debug>true</debug>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-            </plugin>
-
-            <plugin>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-maven-plugin</artifactId>
-                <version>9.0.0.v20130308</version>
-
-                <configuration>
-                    <scanIntervalSeconds>10</scanIntervalSeconds>
-                    <daemon>true</daemon>
-
-                    <webApp>
-                        <contextPath>/</contextPath>
-                    </webApp>
-
-                    <stopPort>19081</stopPort>
-                    <stopKey>53AS9DS1FD8E3WEFEW9GR1ER8G2ER0WE31</stopKey>
-                </configuration>
-
                 <executions>
                     <execution>
-                        <id>jetty-start</id>
-
-                        <phase>test-compile</phase>
+                        <id>attach-sources</id>
                         <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>jetty-stop</id>
-
-                        <phase>test</phase>
-                        <goals>
-                            <goal>stop</goal>
+                            <goal>jar</goal>
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.14.1</version>
             </plugin>
         </plugins>
     </build>
@@ -76,43 +58,22 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>repository-unit-client</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
             <artifactId>repository-unit-annotations</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>repository-unit-test</artifactId>
+            <artifactId>repository-unit-client</artifactId>
             <version>${project.version}</version>
-            <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>com.sun.jersey</groupId>
-            <artifactId>jersey-servlet</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.jersey.contribs</groupId>
-            <artifactId>jersey-multipart</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.jersey</groupId>
             <artifactId>jersey-client</artifactId>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.sun.jersey</groupId>
             <artifactId>jersey-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.jersey.contribs</groupId>
-            <artifactId>jersey-apache-client</artifactId>
-            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -137,7 +98,6 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
-            <!--<scope>provided</scope>-->
         </dependency>
 
         <dependency>

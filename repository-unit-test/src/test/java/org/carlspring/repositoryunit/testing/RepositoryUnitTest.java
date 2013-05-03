@@ -1,5 +1,6 @@
 package org.carlspring.repositoryunit.testing;
 
+import junit.framework.Assert;
 import org.carlspring.repositoryunit.annotations.ArtifactExistenceState;
 import org.carlspring.repositoryunit.annotations.ArtifactResource;
 import org.carlspring.repositoryunit.annotations.ArtifactResourceMapper;
@@ -42,13 +43,13 @@ public class RepositoryUnitTest extends AbstractRepositoryUnitTestCase
         final ArtifactResource resource = ArtifactResourceMapper.getResource("org.carlspring", "test", "1.2.3");
 
         assertNotNull("Failed to map artifact resource!", resource);
-        assertEquals("Failed to map artifact resource!", "releases", resource.repository());
-        assertEquals("Failed to map artifact resource!", "org.carlspring", resource.groupId());
-        assertEquals("Failed to map artifact resource!", "test", resource.artifactId());
-        assertEquals("Failed to map artifact resource!", "1.2.3", resource.version());
-        assertEquals("Failed to map artifact resource!", "jar", resource.type());
-        assertEquals("Failed to map artifact resource!", 1000000, resource.length());
-        assertEquals("Failed to map artifact resource!", ArtifactExistenceState.EXISTS, resource.state());
+        Assert.assertEquals("Failed to map artifact resource!", "releases", resource.repository());
+        Assert.assertEquals("Failed to map artifact resource!", "org.carlspring", resource.groupId());
+        Assert.assertEquals("Failed to map artifact resource!", "test", resource.artifactId());
+        Assert.assertEquals("Failed to map artifact resource!", "1.2.3", resource.version());
+        Assert.assertEquals("Failed to map artifact resource!", "jar", resource.type());
+        Assert.assertEquals("Failed to map artifact resource!", 1000000, resource.length());
+        Assert.assertEquals("Failed to map artifact resource!", ArtifactExistenceState.EXISTS, resource.state());
     }
 
 }
