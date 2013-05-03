@@ -13,11 +13,13 @@
     <name>Repository Unit: Framework</name>
 
     <modules>
+        <module>repository-unit-commons</module>
+        <module>repository-unit-client</module>
         <module>repository-unit-annotations</module>
         <module>repository-unit-parent</module>
         <module>repository-unit-webapp</module>
         <module>repository-unit-jetty-launcher</module>
-        <!--module>repository-unit-maven-plugin</module-->
+        <module>repository-unit-maven-plugin</module>
     </modules>
 
 </project>
