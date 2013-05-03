@@ -8,10 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Response;
-import java.io.IOException;
+import javax.ws.rs.core.*;
+import java.io.*;
 import java.util.Random;
 
 /**
@@ -36,17 +34,26 @@ public class NexusArtifactRestlet
         logger.debug("PUT: " + path);
     }
 
-    @GET
-    @Path("/{path:.*}")
-    public String download(@PathParam("path") String path)
+    private void generateRandomData(OutputStream out, long length)
             throws IOException
     {
-        System.out.println("GET: " + path);
-        logger.debug("GET: " + path);
+        Random random = new Random();
 
-        String repository = path.split("/")[0];
-        String artifactPath = path.substring(path.indexOf("/") + 1, path.length());
+        byte[] buffer = new byte[1];
+        for (int i = 0; i < length; i++)
+        {
+            random.nextBytes(buffer);
+            out.write(buffer);
+            out.flush();
+        }
+    }
 
+    @GET
+    @Path("/{repository}/{path:.*}")
+    public Response download(@PathParam("repository") String repository,
+                             @PathParam("path") String artifactPath)
+            throws IOException
+    {
         if (!ArtifactUtils.isArtifact(artifactPath))
         {
             throw new WebApplicationException(Response.Status.NOT_FOUND);
@@ -54,29 +61,28 @@ public class NexusArtifactRestlet
 
         Artifact artifact = ArtifactUtils.convertPathToArtifact(artifactPath);
 
-        ArtifactResource resource = ArtifactResourceMapper.getResource(artifact.getGroupId(),
-                                                                       artifact.getArtifactId(),
-                                                                       artifact.getVersion());
+        final ArtifactResource resource = ArtifactResourceMapper.getResource(artifact.getGroupId(),
+                                                                             artifact.getArtifactId(),
+                                                                             artifact.getVersion());
 
         if (resource == null)
         {
             logger.debug("Artifact " + artifact.toString() + " not found.");
 
-            try
-            {
-                Thread.sleep(5000l);
-            }
-            catch (InterruptedException e)
-            {
-                e.printStackTrace();
-            }
-
             throw new WebApplicationException(Response.Status.NOT_FOUND);
         }
 
-        // NOTE: This is not meant for large artifacts
+        // Create random data using a ByteArrayOutputStream.
+        // NOTE: This is not meant for large artifacts as it is.
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-        return "Size: " + resource.length();
+        generateRandomData(baos, resource.length());
+
+        System.out.println("Generated stream with " + baos.toByteArray().length + " bytes.");
+
+        InputStream is = new ByteArrayInputStream(baos.toByteArray());
+
+        return Response.ok(is).build();
     }
 
     @DELETE
