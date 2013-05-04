@@ -29,6 +29,10 @@
                         <goals>
                             <goal>start</goal>
                         </goals>
+
+                        <configuration>
+                            <port>48080</port>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

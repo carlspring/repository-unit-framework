@@ -42,6 +42,10 @@
                         <contextPath>/</contextPath>
                     </webApp>
 
+                    <httpConnector>
+                        <port>48080</port>
+                    </httpConnector>
+
                     <stopPort>19081</stopPort>
                     <stopKey>53AS9DS1FD8E3WEFEW9GR1ER8G2ER0WE31</stopKey>
                 </configuration>
@@ -125,12 +129,12 @@
         </dependency>
 
         <dependency>
-           <groupId>org.eclipse.jetty</groupId>
-           <artifactId>jetty-server</artifactId>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-server</artifactId>
         </dependency>
         <dependency>
-           <groupId>org.eclipse.jetty</groupId>
-           <artifactId>jetty-webapp</artifactId>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-webapp</artifactId>
         </dependency>
 
         <!-- Use Log4J for logging -->

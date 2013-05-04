@@ -27,8 +27,9 @@ import static junit.framework.Assert.assertTrue;
 public class JettyLauncherTest extends AbstractRepositoryUnitTestCase
 {
 
+    public static final int PORT = 48080;
 
-    public static final String ARTIFACT_URL = "http://localhost:8080/nexus/content/repositories/snapshots/" +
+    public static final String ARTIFACT_URL = "http://localhost:" + PORT + "/nexus/content/repositories/snapshots/" +
                                               "org/carlspring/maven/" +
                                               "my-maven-plugin/" +
                                               "1.0-SNAPSHOT/" +

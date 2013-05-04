@@ -47,6 +47,7 @@ public class ResolveArtifactTest
     {
         ArtifactClient client = new ArtifactClient();
         client.setContextBaseUrl("nexus/content/repositories");
+        client.setPort(48080);
         client.addArtifact(ARTIFACT, REPOSITORY, 10000l);
 
         // Get the artifact

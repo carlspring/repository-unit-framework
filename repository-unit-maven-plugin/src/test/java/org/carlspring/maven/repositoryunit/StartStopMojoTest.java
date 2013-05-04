@@ -37,11 +37,13 @@ public class StartStopMojoTest
         startMojo.setBasedir(new File(".").getCanonicalPath());
         startMojo.setSettings(settings);
         startMojo.setTimeout(15);
+        startMojo.setPort(48080);
 
         stopMojo = (StopRepositoryMojo) lookupMojo("stop", POM_PLUGIN);
         stopMojo.setBasedir(new File(".").getCanonicalPath());
         stopMojo.setSettings(settings);
         stopMojo.setTimeout(15);
+        stopMojo.setPort(48080);
     }
 
     public void testStartStopTest()

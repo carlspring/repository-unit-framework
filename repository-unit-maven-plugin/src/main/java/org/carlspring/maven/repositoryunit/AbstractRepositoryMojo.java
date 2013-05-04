@@ -52,7 +52,7 @@ public abstract class AbstractRepositoryMojo
     /**
      * The port to start the repository on.
      *
-     * @parameter expression="${repository.port}"
+     * @parameter expression="${repository.port}" default-value=48080
      */
     int port;
 

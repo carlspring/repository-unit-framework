@@ -51,6 +51,7 @@ public class ArtifactManagementRestletTest
         // Add the artifact
 
         ArtifactClient client = new ArtifactClient();
+        client.setPort(48080);
         client.setContextBaseUrl("nexus/content/repositories");
         client.addArtifact(ARTIFACT, REPOSITORY, 10000l);
 

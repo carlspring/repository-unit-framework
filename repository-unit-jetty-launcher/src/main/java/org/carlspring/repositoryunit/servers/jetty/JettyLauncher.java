@@ -12,7 +12,7 @@ import java.io.File;
 public class JettyLauncher
 {
 
-    private int port = 8080;
+    private int port = 48080;
 
     private String basedir;
 

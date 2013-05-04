@@ -26,7 +26,7 @@ public class ArtifactClient
 
     private String contextBaseUrl;
 
-    private int port = 8080;
+    private int port = 48080;
 
 
     public void addArtifact(Artifact artifact,
