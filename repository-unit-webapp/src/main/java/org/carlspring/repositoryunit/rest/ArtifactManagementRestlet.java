@@ -4,7 +4,7 @@ import org.apache.maven.artifact.Artifact;
 import org.carlspring.repositoryunit.annotations.ArtifactExistenceState;
 import org.carlspring.repositoryunit.annotations.ArtifactResource;
 import org.carlspring.repositoryunit.annotations.ArtifactResourceMapper;
-import org.carlspring.repositoryunit.util.ArtifactUtils;
+import org.carlspring.maven.commons.util.ArtifactUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

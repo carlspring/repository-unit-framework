@@ -4,7 +4,7 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import org.apache.maven.artifact.Artifact;
-import org.carlspring.repositoryunit.util.ArtifactUtils;
+import org.carlspring.maven.commons.util.ArtifactUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -102,6 +102,19 @@ public class ArtifactClient
 
         WebResource webResource = client.resource(url);
         webResource.type(MediaType.TEXT_PLAIN).delete();
+    }
+
+    public boolean artifactExists(String repoUrl, Artifact artifact)
+    {
+        Client client = Client.create();
+        final String pathToArtifact = repoUrl + ArtifactUtils.convertArtifactToPath(artifact);
+
+        logger.debug("Path to artifact: " + pathToArtifact);
+
+        WebResource webResource = client.resource(pathToArtifact);
+        ClientResponse response = webResource.accept("application/xml").get(ClientResponse.class);
+
+        return response.getStatus() == 200;
     }
 
     public String getHost()
