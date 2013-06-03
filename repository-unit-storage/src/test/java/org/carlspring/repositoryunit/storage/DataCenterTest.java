@@ -25,6 +25,7 @@ public class DataCenterTest
     {
         Storage storage1 = new Storage();
         storage1.setBasedir("/foo/bar/anonymous");
+        storage1.addRepository("repository0");
 
         Storage storage2 = new Storage();
         storage2.setBasedir("/foo/bar/storage");
@@ -36,6 +37,10 @@ public class DataCenterTest
         assertEquals("Incorrect number of storages!", dataCenter.getStorages().size(), 2);
         assertNotNull("Failed to add named storage!", dataCenter.getStorages().get("/foo/bar/storage"));
         assertNotNull("Failed to add anonymous storage!", dataCenter.getStorages().get("anonymous-storage-1"));
+
+        final Storage storageByRepository = dataCenter.getStorageByRepository("repository0");
+        assertNotNull("Failed to resolve anonymous storage!", storageByRepository);
+        assertEquals(storage1, storageByRepository);
     }
 
     @Test

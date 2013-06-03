@@ -62,12 +62,33 @@ public class DataCenter
      *
      * @param repository The absolute path to the repository
      */
-    private void addRepository(String repository)
+    public void addRepository(String repository)
     {
         Storage anonymousStorage = new Storage();
         anonymousStorage.addRepository(repository);
 
         addStorage(null, anonymousStorage);
+    }
+
+    /**
+     * NOTE: This will currently not handle the case where more
+     *       than one storage contains a repository with the same name.
+     *
+     * @param repository
+     * @return
+     */
+    public Storage getStorageByRepository(String repository)
+    {
+        for (Map.Entry entry : storages.entrySet())
+        {
+            Storage storage = (Storage) entry.getValue();
+            if (storage.getRepositories().contains(repository))
+            {
+                return storage;
+            }
+        }
+
+        return null;
     }
 
     /**
