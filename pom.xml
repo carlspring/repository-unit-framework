@@ -18,6 +18,7 @@
         <module>repository-unit-client</module>
         <module>repository-unit-annotations</module>
         <module>repository-unit-test</module>
+        <module>repository-unit-storage</module>
         <module>repository-unit-webapp</module>
         <module>repository-unit-jetty-launcher</module>
         <module>repository-unit-maven-plugin</module>
