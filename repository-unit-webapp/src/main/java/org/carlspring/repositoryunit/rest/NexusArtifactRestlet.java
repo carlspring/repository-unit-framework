@@ -4,6 +4,7 @@ import org.apache.maven.artifact.Artifact;
 import org.carlspring.repositoryunit.annotations.ArtifactResource;
 import org.carlspring.repositoryunit.annotations.ArtifactResourceMapper;
 import org.carlspring.maven.commons.util.ArtifactUtils;
+import org.carlspring.repositoryunit.io.RandomInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -72,15 +73,10 @@ public class NexusArtifactRestlet
             throw new WebApplicationException(Response.Status.NOT_FOUND);
         }
 
-        // Create random data using a ByteArrayOutputStream.
-        // NOTE: This is not meant for large artifacts as it is.
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        // Create random data.
+        System.out.println("Generating stream with " + resource.length() + " bytes.");
 
-        generateRandomData(baos, resource.length());
-
-        System.out.println("Generated stream with " + baos.toByteArray().length + " bytes.");
-
-        InputStream is = new ByteArrayInputStream(baos.toByteArray());
+        InputStream is = new RandomInputStream(resource.length());
 
         return Response.ok(is).build();
     }
