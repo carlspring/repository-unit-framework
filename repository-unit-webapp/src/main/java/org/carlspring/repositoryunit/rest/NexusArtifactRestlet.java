@@ -35,20 +35,6 @@ public class NexusArtifactRestlet
         logger.debug("PUT: " + path);
     }
 
-    private void generateRandomData(OutputStream out, long length)
-            throws IOException
-    {
-        Random random = new Random();
-
-        byte[] buffer = new byte[1];
-        for (int i = 0; i < length; i++)
-        {
-            random.nextBytes(buffer);
-            out.write(buffer);
-            out.flush();
-        }
-    }
-
     @GET
     @Path("/{repository}/{path:.*}")
     public Response download(@PathParam("repository") String repository,
