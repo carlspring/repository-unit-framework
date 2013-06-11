@@ -1,17 +1,18 @@
 package org.carlspring.repositoryunit.rest;
 
 import org.apache.maven.artifact.Artifact;
-import org.carlspring.repositoryunit.annotations.ArtifactResource;
-import org.carlspring.repositoryunit.annotations.ArtifactResourceMapper;
 import org.carlspring.maven.commons.util.ArtifactUtils;
-import org.carlspring.repositoryunit.io.RandomInputStream;
+import org.carlspring.repositoryunit.storage.resolvers.ArtifactResolutionException;
+import org.carlspring.repositoryunit.storage.resolvers.ArtifactResolutionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.*;
-import java.io.*;
-import java.util.Random;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.Response;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * @author Martin Todorov
@@ -23,6 +24,13 @@ public class NexusArtifactRestlet
 
     private static final Logger logger = LoggerFactory.getLogger(NexusArtifactRestlet.class);
 
+    private static ArtifactResolutionService resolutionService = ArtifactResolutionService.getInstance();
+
+
+    static
+    {
+        resolutionService.initialize();
+    }
 
     @PUT
     @Path("/{path:.*}")
@@ -48,21 +56,15 @@ public class NexusArtifactRestlet
 
         Artifact artifact = ArtifactUtils.convertPathToArtifact(artifactPath);
 
-        final ArtifactResource resource = ArtifactResourceMapper.getResource(artifact.getGroupId(),
-                                                                             artifact.getArtifactId(),
-                                                                             artifact.getVersion());
-
-        if (resource == null)
+        InputStream is;
+        try
         {
-            logger.debug("Artifact " + artifact.toString() + " not found.");
-
+            is = resolutionService.getInputStreamForArtifact(repository, artifact);
+        }
+        catch (ArtifactResolutionException e)
+        {
             throw new WebApplicationException(Response.Status.NOT_FOUND);
         }
-
-        // Create random data.
-        System.out.println("Generating stream with " + resource.length() + " bytes.");
-
-        InputStream is = new RandomInputStream(resource.length());
 
         return Response.ok(is).build();
     }

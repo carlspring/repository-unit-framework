@@ -1,10 +1,7 @@
 package org.carlspring.repositoryunit.storage;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 
  /**
@@ -77,18 +74,20 @@ public class DataCenter
      * @param repository
      * @return
      */
-    public Storage getStorageByRepository(String repository)
+    public List<Storage> getStoragesContainingRepository(String repository)
     {
+        List<Storage> matchingStorages = new ArrayList<Storage>();
+
         for (Map.Entry entry : storages.entrySet())
         {
             Storage storage = (Storage) entry.getValue();
             if (storage.getRepositories().contains(repository))
             {
-                return storage;
+                matchingStorages.add(storage);
             }
         }
 
-        return null;
+        return matchingStorages;
     }
 
     /**

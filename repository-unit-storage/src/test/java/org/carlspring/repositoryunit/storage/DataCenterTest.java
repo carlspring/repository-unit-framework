@@ -38,9 +38,9 @@ public class DataCenterTest
         assertNotNull("Failed to add named storage!", dataCenter.getStorages().get("/foo/bar/storage"));
         assertNotNull("Failed to add anonymous storage!", dataCenter.getStorages().get("anonymous-storage-1"));
 
-        final Storage storageByRepository = dataCenter.getStorageByRepository("repository0");
-        assertNotNull("Failed to resolve anonymous storage!", storageByRepository);
-        assertEquals(storage1, storageByRepository);
+        final List<Storage> storagesContainingRepository0 = dataCenter.getStoragesContainingRepository("repository0");
+        assertNotNull("Failed to resolve anonymous storage!", storagesContainingRepository0);
+        assertEquals("Failed to resolve anonymous storage!", 1, storagesContainingRepository0.size());
     }
 
     @Test
@@ -96,6 +96,11 @@ public class DataCenterTest
             }
         }
 
+        final List<Storage> storagesContainingIntReleases = dataCenter.getStoragesContainingRepository("int-releases");
+        assertNotNull("Failed to resolve anonymous storage!", storagesContainingIntReleases);
+        assertEquals("Incorrect number of storages containing repository 'int-releases' was returned!",
+                     2,
+                     storagesContainingIntReleases.size());
     }
 
 }
