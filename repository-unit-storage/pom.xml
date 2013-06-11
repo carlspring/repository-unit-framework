@@ -34,7 +34,7 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>repository-unit-commons</artifactId>
+            <artifactId>repository-unit-annotations</artifactId>
             <version>${project.version}</version>
         </dependency>
 
