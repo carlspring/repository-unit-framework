@@ -17,6 +17,7 @@ package org.carlspring.maven.repositoryunit;
  */
 
 import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.settings.Settings;
 import org.carlspring.ioc.InjectionException;
@@ -27,7 +28,6 @@ import org.carlspring.repositoryunit.servers.jetty.JettyLauncher;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Properties;
 
 /**
  * @author mtodorov
@@ -37,46 +37,37 @@ public abstract class AbstractRepositoryMojo
         extends AbstractMojo
 {
 
-    /**
-     * @parameter default-value="${project}"
-     * @required
-     * @readonly
-     */
+    @Parameter (readonly = true, property = "project", required = true)
     public MavenProject project;
 
-    /**
-     * @parameter expression="${basedir}"
-     */
+    @Parameter (property = "basedir")
     public String basedir;
 
     /**
      * The port to start the repository on.
-     *
-     * @parameter expression="${repository.port}" default-value=48080
      */
+    @Parameter (property = "repository.unit.port", defaultValue = "48080")
     int port;
 
     /**
      * The current user system settings for use in Maven.
-     *
-     * @parameter expression="${settings}"
-     * @required
-     * @readonly
      */
+    @Parameter (property = "settings", required = true, readonly = true)
     Settings settings;
 
-    @PropertyValue(key = "repository.unit.version")
+    @PropertyValue (key = "repository.unit.version") // TODO: This may be redundant
+    @Parameter (property = "repository.unit.version")
     String version;
 
     static JettyLauncher jettyLauncher;
 
     /**
-     * The amount of of seconds to wait before before timing out on a startup/shutdown.
-     *
-     * @parameter expression="${timeout}" default-value=15
-     * @readonly
+     * The amount of seconds to wait before before timing out on a startup/shutdown.
      */
+    @Parameter (property = "repository.unit.timeout", defaultValue = "15")
     long timeout;
+
+
 
 
     public void initializeJettyLauncher()

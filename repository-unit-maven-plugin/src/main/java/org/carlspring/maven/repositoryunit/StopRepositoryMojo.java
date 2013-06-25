@@ -18,12 +18,13 @@ package org.carlspring.maven.repositoryunit;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.Mojo;
 import org.eclipse.jetty.server.Server;
 
 /**
  * @author mtodorov
- * @goal   stop
  */
+@Mojo(name = "stop")
 public class StopRepositoryMojo
         extends AbstractRepositoryMojo
 {
