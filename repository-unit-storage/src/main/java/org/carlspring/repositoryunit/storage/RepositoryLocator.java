@@ -1,6 +1,7 @@
 package org.carlspring.repositoryunit.storage;
 
 import org.carlspring.maven.commons.io.filters.DirectoryFilter;
+import org.carlspring.repositoryunit.storage.repository.Repository;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,7 +36,10 @@ public class RepositoryLocator
 
                 for (File directory : directories)
                 {
-                    storage.addRepository(directory.getName());
+                    Repository repository = new Repository();
+                    repository.setName(directory.getName());
+
+                    storage.addRepository(repository);
                 }
             }
         }

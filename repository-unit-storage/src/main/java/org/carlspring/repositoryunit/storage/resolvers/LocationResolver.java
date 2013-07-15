@@ -12,4 +12,6 @@ public interface LocationResolver
 
     InputStream getInputStreamForArtifact(String repository, Artifact artifact);
 
+    void initialize();
+
 }

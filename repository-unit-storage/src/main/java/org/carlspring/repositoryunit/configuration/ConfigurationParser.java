@@ -4,10 +4,8 @@ import com.thoughtworks.xstream.XStream;
 import org.carlspring.repositoryunit.storage.Storage;
 import org.carlspring.repositoryunit.storage.repository.Repository;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,7 +17,8 @@ public class ConfigurationParser
     public Configuration parseConfiguration(String xmlFile)
             throws FileNotFoundException
     {
-        FileInputStream fis = new FileInputStream(xmlFile);
+        File file = new File(xmlFile).getAbsoluteFile();
+        FileInputStream fis = new FileInputStream(file);
 
         XStream xstream = getXStreamInstance();
 
@@ -53,6 +52,8 @@ public class ConfigurationParser
         XStream xstream = new XStream();
         xstream.autodetectAnnotations(true);
         xstream.alias("configuration", Configuration.class);
+        xstream.alias("resolvers", List.class);
+        xstream.alias("resolver", String.class);
         xstream.alias("storages", Map.class);
         xstream.alias("storage", Storage.class);
         xstream.alias("repositories", Map.class);

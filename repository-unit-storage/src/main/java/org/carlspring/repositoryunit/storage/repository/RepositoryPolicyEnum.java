@@ -6,28 +6,34 @@ package org.carlspring.repositoryunit.storage.repository;
 public enum RepositoryPolicyEnum
 {
 
-    RELEASE(1),
+    RELEASE("release"),
 
-    SNAPSHOT(2),
+    SNAPSHOT("snapshot"),
 
-    MIXED(3);
+    MIXED("mixed");
 
-    private int policy;
+    private String policy;
 
 
-    RepositoryPolicyEnum(int policy)
+    RepositoryPolicyEnum(String policy)
     {
         this.policy = policy;
     }
 
-    public int getPolicy()
+    public String getPolicy()
     {
         return policy;
     }
 
-    public void setPolicy(int policy)
+    public void setPolicy(String policy)
     {
         this.policy = policy;
+    }
+
+    @Override
+    public String toString()
+    {
+        return policy;
     }
 
 }

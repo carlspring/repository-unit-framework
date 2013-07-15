@@ -1,5 +1,7 @@
 package org.carlspring.repositoryunit.storage.repository;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import org.apache.maven.artifact.Artifact;
 import org.carlspring.maven.commons.util.ArtifactUtils;
 
@@ -11,33 +13,40 @@ import java.io.File;
 public class Repository
 {
 
+    @XStreamAsAttribute
     private String name;
 
-    private String basedir;
+    @XStreamAsAttribute
+    private String policy = RepositoryPolicyEnum.MIXED.getPolicy();
 
-    private int policy = RepositoryPolicyEnum.MIXED.getPolicy();
+    @XStreamAsAttribute
+    private String layout = RepositoryLayoutEnum.MAVEN_2.getLayout();
 
-    private int layout = RepositoryLayoutEnum.MAVEN_2.getLayout();
-
-    private int type = RepositoryTypeEnum.HOSTED.getType();
+    @XStreamAsAttribute
+    private String type = RepositoryTypeEnum.HOSTED.getType();
 
 
     public Repository()
     {
     }
 
+    public Repository(String name)
+    {
+        this.name = name;
+    }
+
     public boolean containsArtifact(Artifact artifact)
     {
         final String artifactPath = ArtifactUtils.convertArtifactToPath(artifact);
-        final File artifactFile = new File(basedir, artifactPath);
+        final File artifactFile = new File(name, artifactPath);
 
         return artifactFile.exists();
     }
 
     public boolean allowsSnapshots()
     {
-        return policy == RepositoryPolicyEnum.SNAPSHOT.getPolicy() ||
-               policy == RepositoryPolicyEnum.MIXED.getPolicy();
+        return policy.equals(RepositoryPolicyEnum.SNAPSHOT.getPolicy()) ||
+               policy.equals(RepositoryPolicyEnum.MIXED.getPolicy());
     }
 
     public String getName()
@@ -50,44 +59,40 @@ public class Repository
         this.name = name;
     }
 
-    public String getBasedir()
-    {
-        return basedir;
-    }
-
-    public void setBasedir(String basedir)
-    {
-        this.basedir = basedir;
-    }
-
-    public int getPolicy()
+    public String getPolicy()
     {
         return policy;
     }
 
-    public void setPolicy(int policy)
+    public void setPolicy(String policy)
     {
         this.policy = policy;
     }
 
-    public int getLayout()
+    public String getLayout()
     {
         return layout;
     }
 
-    public void setLayout(int layout)
+    public void setLayout(String layout)
     {
         this.layout = layout;
     }
 
-    public int getType()
+    public String getType()
     {
         return type;
     }
 
-    public void setType(int type)
+    public void setType(String type)
     {
         this.type = type;
+    }
+
+    @Override
+    public String toString()
+    {
+        return name;
     }
 
 }

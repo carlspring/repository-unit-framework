@@ -35,6 +35,16 @@ public class FSLocationResolver implements LocationResolver
         return null;
     }
 
+    @Override
+    public void initialize()
+    {
+        System.out.println("");
+        System.out.println("Initialized FSLocationResolver.");
+        System.out.println("");
+
+        logger.debug("Initialized FSLocationResolver.");
+    }
+
     public DataCenter getDataCenter()
     {
         return dataCenter;

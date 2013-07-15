@@ -1,8 +1,10 @@
 package org.carlspring.repositoryunit.storage.resolvers;
 
 import org.apache.maven.artifact.Artifact;
-import org.carlspring.repositoryunit.storage.DataCenter;
+import org.carlspring.repositoryunit.configuration.Configuration;
+import org.carlspring.repositoryunit.configuration.ConfigurationManager;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -13,6 +15,8 @@ import java.util.Set;
 public class ArtifactResolutionService
 {
 
+    public static final String RESOLVER_INMEMORY = "org.carlspring.repositoryunit.storage.resolvers.InMemoryLocationResolver";
+
     private boolean inMemoryModeOnly = true; //false;
 
     private boolean allowInMemory = false;
@@ -21,40 +25,67 @@ public class ArtifactResolutionService
 
     private static ArtifactResolutionService instance = new ArtifactResolutionService();
 
-    private boolean initialized = false;
-
 
     public static ArtifactResolutionService getInstance()
+            throws ClassNotFoundException,
+                   IOException,
+                   InstantiationException,
+                   IllegalAccessException
     {
+        if (instance == null)
+        {
+            instance = new ArtifactResolutionService();
+            instance.initialize();
+        }
+
         return instance;
     }
 
     public void initialize()
+            throws ClassNotFoundException,
+                   InstantiationException,
+                   IllegalAccessException,
+                   IOException
     {
-        if (initialized)
-        {
-            return;
-        }
+        initializeResolvers(); // Forward the resolver handling to a separate method,
+                               // as other stuff might need to initialized here later on as well.
+    }
 
-        if (inMemoryModeOnly)
+    private void initializeResolvers()
+            throws IOException, ClassNotFoundException, IllegalAccessException, InstantiationException
+    {
+        final Configuration configuration = ConfigurationManager.getInstance().getConfiguration();
+
+        if (configuration != null)
         {
-            InMemoryLocationResolver resolver = new InMemoryLocationResolver();
-            resolvers.add(resolver);
+            for (String resolverName : configuration.getResolvers())
+            {
+                Class<?> clazz = Class.forName(resolverName);
+                LocationResolver resolver = (LocationResolver) clazz.newInstance();
+                resolver.initialize();
+
+                resolvers.add(resolver);
+            }
+
+            if (configuration.getResolvers().contains(RESOLVER_INMEMORY))
+            {
+                allowInMemory = true;
+
+                if (configuration.getResolvers().size() == 1)
+                {
+                    if (configuration.getResolvers().get(0).equals(RESOLVER_INMEMORY))
+                    {
+                        inMemoryModeOnly = true;
+                    }
+                }
+            }
         }
         else
         {
-            FSLocationResolver fsResolver = new FSLocationResolver();
-            InMemoryLocationResolver inMemoryResolver = new InMemoryLocationResolver();
-
-            resolvers.add(fsResolver);
-
-            if (allowInMemory)
-            {
-                resolvers.add(inMemoryResolver);
-            }
+            resolvers.add(new InMemoryLocationResolver());
+            allowInMemory = true;
+            inMemoryModeOnly = true;
         }
-
-        initialized = true;
     }
 
     public InputStream getInputStreamForArtifact(String repository, Artifact artifact)

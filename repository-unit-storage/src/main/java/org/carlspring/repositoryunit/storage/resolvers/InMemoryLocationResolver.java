@@ -45,4 +45,14 @@ public class InMemoryLocationResolver implements LocationResolver
         }
     }
 
+    @Override
+    public void initialize()
+    {
+        System.out.println("");
+        System.out.println("Initialized InMemoryLocationResolver.");
+        System.out.println("");
+
+        logger.debug("Initialized InMemoryLocationResolver.");
+    }
+
 }

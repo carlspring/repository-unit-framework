@@ -6,30 +6,30 @@ package org.carlspring.repositoryunit.storage.repository;
 public enum RepositoryLayoutEnum
 {
 
-    MAVEN_1(1), // Unsupported
+    MAVEN_1("Maven 1"), // Unsupported
 
-    MAVEN_2(2),
+    MAVEN_2("Maven 2"),
 
-    IVY(3),     // Unsupported
+    IVY("Ivy"),         // Unsupported
 
-    RPM(4),     // Unsupported
+    RPM("RPM"),         // Unsupported
 
-    YUM(5);     // Unsupported
+    YUM("YUM");         // Unsupported
 
-    private int layout;
+    private String layout;
 
 
-    RepositoryLayoutEnum(int layout)
+    RepositoryLayoutEnum(String layout)
     {
         this.layout = layout;
     }
 
-    public int getLayout()
+    public String getLayout()
     {
         return layout;
     }
 
-    public void setLayout(int layout)
+    public void setLayout(String layout)
     {
         this.layout = layout;
     }

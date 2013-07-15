@@ -6,29 +6,29 @@ package org.carlspring.repositoryunit.storage.repository;
 public enum RepositoryTypeEnum
 {
 
-    HOSTED(1),
+    HOSTED("hosted"),
 
-    PROXY(2),   // Unsupported
+    PROXY("proxy"),     // Unsupported
 
-    GROUP(3),   // Unsupported
+    GROUP("group"),     // Unsupported
 
-    VIRTUAL(4); // Unsupported
-
-
-    private int type;
+    VIRTUAL("virtual"); // Unsupported
 
 
-    RepositoryTypeEnum(int type)
+    private String type;
+
+
+    RepositoryTypeEnum(String type)
     {
         this.type = type;
     }
 
-    public int getType()
+    public String getType()
     {
         return type;
     }
 
-    public void setType(int type)
+    public void setType(String type)
     {
         this.type = type;
     }

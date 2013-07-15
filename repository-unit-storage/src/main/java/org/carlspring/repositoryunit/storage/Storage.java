@@ -1,7 +1,12 @@
 package org.carlspring.repositoryunit.storage;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamImplicit;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import org.carlspring.repositoryunit.storage.repository.Repository;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @author mtodorov
@@ -9,9 +14,11 @@ import java.util.Set;
 public class Storage
 {
 
+    @XStreamAlias(value = "basedir")
     private String basedir;
 
-    private Set<String> repositories = new LinkedHashSet<String>();
+    @XStreamAlias(value = "repositories")
+    private Map<String, Repository> repositories = new LinkedHashMap<String, Repository>();
 
 
     public Storage()
@@ -33,24 +40,24 @@ public class Storage
         this.basedir = basedir;
     }
 
-    public Set<String> getRepositories()
+    public Map<String, Repository> getRepositories()
     {
         return repositories;
     }
 
-    public void setRepositories(Set<String> repositories)
+    public void setRepositories(Map<String, Repository> repositories)
     {
         this.repositories = repositories;
     }
 
-    public void addRepository(String repository)
+    public void addRepository(Repository repository)
     {
-        repositories.add(repository);
+        repositories.put(repository.getName(), repository);
     }
 
-    public void removeRepository(String repository)
+    public void removeRepository(Repository repository)
     {
-        repositories.remove(repository);
+        repositories.remove(repository.getName());
     }
 
     public boolean hasRepositories()

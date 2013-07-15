@@ -1,5 +1,7 @@
 package org.carlspring.repositoryunit.storage;
 
+import org.carlspring.repositoryunit.storage.repository.Repository;
+
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
@@ -29,6 +31,7 @@ public class DataCenter
     {
     }
 
+    @Deprecated
     public void initializeStorages()
             throws IOException
     {
@@ -46,11 +49,11 @@ public class DataCenter
      *
      * @param repositories The absolute paths to the repositories.
      */
-    public void addRepositories(Set<String> repositories)
+    public void addRepositories(String basedir, Collection<Repository> repositories)
     {
-        for (String repository : repositories)
+        for (Repository repository : repositories)
         {
-            addRepository(repository);
+            addRepository(basedir, repository);
         }
     }
 
@@ -59,9 +62,10 @@ public class DataCenter
      *
      * @param repository The absolute path to the repository
      */
-    public void addRepository(String repository)
+    public void addRepository(String basedir, Repository repository)
     {
         Storage anonymousStorage = new Storage();
+        anonymousStorage.setBasedir(basedir);
         anonymousStorage.addRepository(repository);
 
         addStorage(null, anonymousStorage);
@@ -81,7 +85,7 @@ public class DataCenter
         for (Map.Entry entry : storages.entrySet())
         {
             Storage storage = (Storage) entry.getValue();
-            if (storage.getRepositories().contains(repository))
+            if (storage.getRepositories().keySet().contains(repository))
             {
                 matchingStorages.add(storage);
             }

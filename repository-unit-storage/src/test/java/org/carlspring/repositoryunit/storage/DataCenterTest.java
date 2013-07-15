@@ -1,5 +1,6 @@
 package org.carlspring.repositoryunit.storage;
 
+import org.carlspring.repositoryunit.storage.repository.Repository;
 import org.junit.Test;
 
 import java.io.File;
@@ -15,7 +16,7 @@ import static junit.framework.Assert.assertNotNull;
 public class DataCenterTest
 {
 
-    public static final String TEST_CLASSES_DIR = "target/test-classes";
+    public static final String TEST_CLASSES_DIR = new File("target/test-classes").getAbsolutePath();
     public static final String TEST_REPOSITORIES_DIR = TEST_CLASSES_DIR + "/repositories";
     public static final String TEST_STORAGES_DIR = TEST_CLASSES_DIR + "/storages";
 
@@ -25,7 +26,7 @@ public class DataCenterTest
     {
         Storage storage1 = new Storage();
         storage1.setBasedir("/foo/bar/anonymous");
-        storage1.addRepository("repository0");
+        storage1.addRepository(new Repository("repository0"));
 
         Storage storage2 = new Storage();
         storage2.setBasedir("/foo/bar/storage");
@@ -47,13 +48,13 @@ public class DataCenterTest
     public void testAddRepositoriesAsAnonymousStorages()
             throws IOException
     {
-        Set<String> repositories = new LinkedHashSet<String>();
-        repositories.add(new File(TEST_REPOSITORIES_DIR, "repository0").getCanonicalPath());
-        repositories.add(new File(TEST_REPOSITORIES_DIR, "repository1").getCanonicalPath());
-        repositories.add(new File(TEST_REPOSITORIES_DIR, "repository2").getCanonicalPath());
+        Set<Repository> repositories = new LinkedHashSet<Repository>();
+        repositories.add(new Repository(new File(TEST_REPOSITORIES_DIR, "repository0").getCanonicalFile().getName()));
+        repositories.add(new Repository(new File(TEST_REPOSITORIES_DIR, "repository1").getCanonicalFile().getName()));
+        repositories.add(new Repository(new File(TEST_REPOSITORIES_DIR, "repository2").getCanonicalFile().getName()));
 
         DataCenter dataCenter = new DataCenter();
-        dataCenter.addRepositories(repositories);
+        dataCenter.addRepositories(TEST_REPOSITORIES_DIR, repositories);
 
         assertEquals("Failed to add anonymous storages!", 3, dataCenter.getStorages().keySet().size());
     }
@@ -76,12 +77,12 @@ public class DataCenterTest
 
         dataCenter.initializeStorages();
 
-        Set<String> repositories = new LinkedHashSet<String>();
-        repositories.add(new File(TEST_REPOSITORIES_DIR, "repository0").getCanonicalPath());
-        repositories.add(new File(TEST_REPOSITORIES_DIR, "repository1").getCanonicalPath());
-        repositories.add(new File(TEST_REPOSITORIES_DIR, "repository2").getCanonicalPath());
+        Set<Repository> repositories = new LinkedHashSet<Repository>();
+        repositories.add(new Repository(new File(TEST_REPOSITORIES_DIR, "repository0").getCanonicalFile().getName()));
+        repositories.add(new Repository(new File(TEST_REPOSITORIES_DIR, "repository1").getCanonicalFile().getName()));
+        repositories.add(new Repository(new File(TEST_REPOSITORIES_DIR, "repository2").getCanonicalFile().getName()));
 
-        dataCenter.addRepositories(repositories);
+        dataCenter.addRepositories(TEST_REPOSITORIES_DIR, repositories);
 
         assertEquals("Incorrect number of storages!", 6, dataCenter.getStorages().size());
 
@@ -89,9 +90,15 @@ public class DataCenterTest
         {
             Storage storage = (Storage) entry.getValue();
 
-            System.out.println(entry.getKey() +": " + storage.getBasedir());
-            for (String repository : storage.getRepositories())
+            String storageKey = (String) entry.getKey();
+            storageKey = storageKey.indexOf(File.separatorChar) != -1 ?
+                         storageKey.substring(storageKey.lastIndexOf(File.separatorChar) + 1, storageKey.length()) :
+                         storageKey;
+            System.out.println(storageKey +": " + storage.getBasedir());
+
+            for (String key : storage.getRepositories().keySet())
             {
+                Repository repository = storage.getRepositories().get(key);
                 System.out.println(" --> " + repository);
             }
         }
