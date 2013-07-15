@@ -24,13 +24,6 @@ public class NexusArtifactRestlet
 
     private static final Logger logger = LoggerFactory.getLogger(NexusArtifactRestlet.class);
 
-    private static ArtifactResolutionService resolutionService = ArtifactResolutionService.getInstance();
-
-
-    static
-    {
-        resolutionService.initialize();
-    }
 
     @PUT
     @Path("/{path:.*}")
@@ -39,6 +32,8 @@ public class NexusArtifactRestlet
                        byte[] in)
             throws IOException
     {
+        // TODO: Implement
+
         System.out.println("PUT: " + path);
         logger.debug("PUT: " + path);
     }
@@ -47,7 +42,10 @@ public class NexusArtifactRestlet
     @Path("/{repository}/{path:.*}")
     public Response download(@PathParam("repository") String repository,
                              @PathParam("path") String artifactPath)
-            throws IOException
+            throws IOException,
+                   InstantiationException,
+                   IllegalAccessException,
+                   ClassNotFoundException
     {
         if (!ArtifactUtils.isArtifact(artifactPath))
         {
@@ -59,7 +57,7 @@ public class NexusArtifactRestlet
         InputStream is;
         try
         {
-            is = resolutionService.getInputStreamForArtifact(repository, artifact);
+            is = ArtifactResolutionService.getInstance().getInputStreamForArtifact(repository, artifact);
         }
         catch (ArtifactResolutionException e)
         {
@@ -74,6 +72,8 @@ public class NexusArtifactRestlet
     public void delete(@PathParam("path") String path)
             throws IOException
     {
+        // TODO: Implement
+
         System.out.println("DELETE: " + path);
         logger.debug("DELETE: " + path);
     }
