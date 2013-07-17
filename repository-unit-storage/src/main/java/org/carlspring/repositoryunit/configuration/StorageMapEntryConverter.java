@@ -57,16 +57,29 @@ public class StorageMapEntryConverter
         {
             reader.moveDown();
 
+            Storage storage = new Storage();
             final String nodeName = reader.getNodeName();
             if (nodeName.equals("storage"))
             {
-                final Iterator attributeNames = reader.getAttributeNames();
-
-                Storage storage = new Storage();
-                while (attributeNames.hasNext())
+                while (reader.hasMoreChildren())
                 {
-                    Repository repository = (Repository) context.convertAnother(storage, Repository.class);
-                    storage.addRepository(repository);
+                    reader.moveDown();
+
+                    if (reader.getNodeName().equals("basedir"))
+                    {
+                        storage.setBasedir(reader.getValue().trim());
+                    }
+                    else if (reader.getNodeName().equals("repositories"))
+                    {
+                        final Map<String, Repository> repositories = parseRepositories(reader, context);
+                        storage.setRepositories(repositories);
+                    }
+                    else
+                    {
+                        System.out.println("WARN: Not parsing node " + reader.getNodeName());
+                    }
+
+                    reader.moveUp();
                 }
 
                 map.put(storage.getBasedir(), storage);
@@ -76,6 +89,24 @@ public class StorageMapEntryConverter
         }
 
         return map;
+    }
+
+    private Map<String, Repository> parseRepositories(HierarchicalStreamReader reader,
+                                                      UnmarshallingContext context)
+    {
+        Map<String, Repository> repositories = new LinkedHashMap<String, Repository>();
+
+        while (reader.hasMoreChildren())
+        {
+            reader.moveDown();
+
+            Repository repository = (Repository) context.convertAnother(null, Repository.class);
+            repositories.put(repository.getName(), repository);
+
+            reader.moveUp();
+        }
+
+        return repositories;
     }
 
     private void writeRepositoryNode(HierarchicalStreamWriter writer,

@@ -50,6 +50,13 @@ public class ConfigurationManagerTest
         final Configuration configuration = ConfigurationManager.getInstance().getConfiguration();
         assertNotNull(configuration);
         assertNotNull(configuration.getStorages());
+
+        for (String key : configuration.getStorages().keySet())
+        {
+            assertNotNull("Storage key was null!", key);
+            assertTrue("No repositories were parsed!", !configuration.getStorages().get(key).getRepositories().isEmpty());
+        }
+
         assertEquals("Unexpected number of storages!", 1, configuration.getStorages().size());
         assertEquals("Incorrect version!", "1.0", configuration.getVersion());
         assertEquals("Incorrect port number!", 48080, configuration.getPort());

@@ -1,5 +1,6 @@
 package org.carlspring.repositoryunit.configuration;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.slf4j.Logger;
@@ -50,7 +51,8 @@ public class ConfigurationManager
                           System.getProperty("repository.config.xml") :
                           "etc/configuration.xml";
 
-        if (filename == null || System.getProperty("repository.config.xml") == null)
+        File file = new File(filename);
+        if (!file.exists() && System.getProperty("repository.config.xml") == null)
         {
             logger.warn("A configuration will not be loaded, as no etc/configuration.xml file was found," +
                         " nor a value for 'repository.config.xml' was defined.");
