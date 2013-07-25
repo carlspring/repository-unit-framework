@@ -64,7 +64,7 @@ public class ArtifactClient
                      repository + "/" +
                      ArtifactUtils.convertArtifactToPath(artifact);
 
-        logger.debug("Getting " + url);
+        logger.debug("Getting " + url + "...");
 
         WebResource webResource = client.resource(url);
         ClientResponse response = webResource.get(ClientResponse.class);
@@ -88,6 +88,11 @@ public class ArtifactClient
         if (status != 200)
         {
             throw new ArtifactTransportException("Failed to resolve artifact!");
+        }
+
+        if (total == 0)
+        {
+            throw new ArtifactTransportException("Artifact size was zero!");
         }
     }
 
