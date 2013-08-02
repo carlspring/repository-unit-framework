@@ -64,7 +64,7 @@ public class JettyLauncherTest extends AbstractRepositoryUnitTestCase
                 try
                 {
                     launcher.setBasedir(new File("target/web/war").getCanonicalPath());
-                    launcher.setWar("target/web/war/repository-unit-webapp.war");
+                    launcher.setWar("target/web/war/strongbox-webapp.war");
                     launcher.startWarInstance();
                 }
                 catch (Exception e)

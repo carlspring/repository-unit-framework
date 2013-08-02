@@ -82,9 +82,9 @@ public abstract class AbstractRepositoryMojo
         repoDir.mkdirs();
 
         final String war = settings.getLocalRepository() +
-                           "/org/carlspring/repositoryunit/repository-unit-webapp/" +
+                           "/org/carlspring/strongbox/strongbox-webapp/" +
                            getVersion() +
-                           "/repository-unit-webapp-" + getVersion() + ".war";
+                           "/strongbox-webapp-" + getVersion() + ".war";
 
         final File warFile = new File(war).getCanonicalFile();
         if (!warFile.exists())

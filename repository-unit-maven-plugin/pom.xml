@@ -111,23 +111,24 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>repository-unit-webapp</artifactId>
-            <version>${project.version}</version>
+            <groupId>org.carlspring.strongbox</groupId>
+            <artifactId>strongbox-webapp</artifactId>
+            <version>${version.strongbox}</version>
             <type>war</type>
-        </dependency>
-        <dependency>
-            <!-- Used by the integration tests -->
-            <groupId>org.carlspring.repositoryunit</groupId>
-            <artifactId>repository-unit-client</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <!-- Used by the integration tests -->
             <groupId>${project.groupId}</groupId>
             <artifactId>repository-unit-test</artifactId>
             <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <!-- Used by the integration tests -->
+            <groupId>org.carlspring.strongbox</groupId>
+            <artifactId>strongbox-client</artifactId>
+            <version>${version.strongbox}</version>
             <scope>test</scope>
         </dependency>
 
@@ -205,7 +206,7 @@
             </activation>
             <build>
                 <plugins>
-                    <plugin>
+                    <!--plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-install-plugin</artifactId>
                         <version>2.3.1</version>
@@ -226,7 +227,7 @@
                                 </configuration>
                             </execution>
                         </executions>
-                    </plugin>
+                    </plugin-->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-invoker-plugin</artifactId>
@@ -253,9 +254,9 @@
 
                         <dependencies>
                             <dependency>
-                                <groupId>org.carlspring.repositoryunit</groupId>
-                                <artifactId>repository-unit-client</artifactId>
-                                <version>${project.version}</version>
+                                <groupId>org.carlspring.strongbox</groupId>
+                                <artifactId>strongbox-client</artifactId>
+                                <version>${version.strongbox}</version>
                             </dependency>
                             <dependency>
                                 <groupId>org.carlspring.repositoryunit</groupId>

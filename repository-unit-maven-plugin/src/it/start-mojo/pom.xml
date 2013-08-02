@@ -50,9 +50,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.carlspring.repositoryunit</groupId>
-            <artifactId>repository-unit-client</artifactId>
-            <version>${version.repository.unit}</version>
+            <groupId>org.carlspring.strongbox</groupId>
+            <artifactId>strongbox-client</artifactId>
+            <version>@version.strongbox@</version>
             <scope>test</scope>
         </dependency>
         <dependency>

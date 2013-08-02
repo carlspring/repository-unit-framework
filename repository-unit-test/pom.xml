@@ -62,9 +62,9 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>repository-unit-client</artifactId>
-            <version>${project.version}</version>
+            <groupId>org.carlspring.strongbox</groupId>
+            <artifactId>strongbox-client</artifactId>
+            <version>${version.strongbox}</version>
         </dependency>
 
         <dependency>
