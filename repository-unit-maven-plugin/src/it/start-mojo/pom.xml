@@ -10,6 +10,8 @@
     <packaging>jar</packaging>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
         <version.repository.unit>1.0-SNAPSHOT</version.repository.unit>
         <version.jersey>1.11</version.jersey>
         <version.jetty>@version.jetty@</version.jetty>

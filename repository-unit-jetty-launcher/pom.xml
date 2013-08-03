@@ -107,16 +107,16 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>repository-unit-annotations</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
             <artifactId>repository-unit-test</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.carlspring.strongbox</groupId>
+            <artifactId>strongbox-annotations</artifactId>
+            <version>${version.strongbox}</version>
+        </dependency>
         <dependency>
             <groupId>org.carlspring.strongbox</groupId>
             <artifactId>strongbox-webapp</artifactId>

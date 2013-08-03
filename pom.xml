@@ -15,7 +15,6 @@
     <modules>
         <module>repository-unit-parent</module>
         <module>repository-unit-commons</module>
-        <module>repository-unit-annotations</module>
         <module>repository-unit-test</module>
         <module>repository-unit-jetty-launcher</module>
         <module>repository-unit-maven-plugin</module>

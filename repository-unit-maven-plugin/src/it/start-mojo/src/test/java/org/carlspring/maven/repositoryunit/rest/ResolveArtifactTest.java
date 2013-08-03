@@ -3,7 +3,7 @@ package org.carlspring.maven.repositoryunit.rest;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.DefaultArtifact;
 import org.apache.maven.artifact.handler.DefaultArtifactHandler;
-import org.carlspring.repositoryunit.client.ArtifactClient;
+import org.carlspring.strongbox.client.ArtifactClient;
 import org.carlspring.repositoryunit.testing.AbstractRepositoryUnitTestCase;
 import org.junit.Before;
 import org.junit.Test;

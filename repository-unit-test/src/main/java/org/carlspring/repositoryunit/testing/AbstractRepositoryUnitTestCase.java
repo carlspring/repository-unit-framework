@@ -1,6 +1,6 @@
 package org.carlspring.repositoryunit.testing;
 
-import org.carlspring.repositoryunit.annotations.*;
+import org.carlspring.strongbox.annotations.*;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;

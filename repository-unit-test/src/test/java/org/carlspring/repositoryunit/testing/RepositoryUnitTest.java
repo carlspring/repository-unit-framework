@@ -1,10 +1,10 @@
 package org.carlspring.repositoryunit.testing;
 
 import junit.framework.Assert;
-import org.carlspring.repositoryunit.annotations.ArtifactExistenceState;
-import org.carlspring.repositoryunit.annotations.ArtifactResource;
-import org.carlspring.repositoryunit.annotations.ArtifactResourceMapper;
-import org.carlspring.repositoryunit.annotations.RequiresArtifactResource;
+import org.carlspring.strongbox.annotations.ArtifactExistenceState;
+import org.carlspring.strongbox.annotations.ArtifactResource;
+import org.carlspring.strongbox.annotations.ArtifactResourceMapper;
+import org.carlspring.strongbox.annotations.RequiresArtifactResource;
 import org.junit.Before;
 import org.junit.Test;
 
