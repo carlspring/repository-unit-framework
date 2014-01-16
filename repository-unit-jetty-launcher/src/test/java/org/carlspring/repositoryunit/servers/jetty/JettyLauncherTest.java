@@ -1,35 +1,24 @@
 package org.carlspring.repositoryunit.servers.jetty;
 
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-import org.carlspring.strongbox.annotations.ArtifactExistenceState;
-import org.carlspring.strongbox.annotations.ArtifactResource;
-import org.carlspring.strongbox.annotations.ArtifactResourceMapper;
-import org.carlspring.strongbox.annotations.RequiresArtifactResource;
+import org.carlspring.maven.commons.util.ArtifactUtils;
 import org.carlspring.repositoryunit.testing.AbstractRepositoryUnitTestCase;
-import org.junit.Before;
-import org.junit.Test;
+import org.carlspring.strongbox.client.ArtifactClient;
 
 import java.io.File;
 
-import static junit.framework.Assert.assertTrue;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * @author mtodorov
  */
-@RequiresArtifactResource( artifactResources = { @ArtifactResource( repository = "snapshots",
-                                                                    groupId = "org.carlspring.maven",
-                                                                    artifactId = "my-maven-plugin",
-                                                                    version = "1.0-SNAPSHOT",
-                                                                    length = 10000,
-                                                                    state = ArtifactExistenceState.EXISTS) })
-public class JettyLauncherTest extends AbstractRepositoryUnitTestCase
+public class JettyLauncherTest
+        extends AbstractRepositoryUnitTestCase
 {
 
     public static final int PORT = 48080;
 
-    public static final String ARTIFACT_URL = "http://localhost:" + PORT + "/nexus/content/repositories/snapshots/" +
+    public static final String ARTIFACT_URL = "http://localhost:" + PORT + "/storages/storage0/snapshots/" +
                                               "org/carlspring/maven/" +
                                               "my-maven-plugin/" +
                                               "1.0-SNAPSHOT/" +
@@ -41,7 +30,7 @@ public class JettyLauncherTest extends AbstractRepositoryUnitTestCase
     public void setUp()
             throws Exception
     {
-        super.setUp();
+        // Overriding method in order to skip injection.
     }
 
     @Override
@@ -81,25 +70,19 @@ public class JettyLauncherTest extends AbstractRepositoryUnitTestCase
             Thread.sleep(250l);
         }
 
-        Client client = Client.create();
+        System.out.println("Add artifact...");
+
+        ArtifactClient client = new ArtifactClient();
+        client.setContextBaseUrl("storages/storage0");
+        client.addArtifact(ArtifactUtils.getArtifactFromGAV("org.carlspring.maven:my-maven-plugin:1.0-SNAPSHOT"),
+                           "snapshots",
+                           10000L);
 
         System.out.println("Getting " + ARTIFACT_URL);
+        client.getArtifact(ArtifactUtils.getArtifactFromGAV("org.carlspring.maven:my-maven-plugin:1.0-SNAPSHOT"),
+                           "snapshots");
 
-        final ArtifactResource resource = ArtifactResourceMapper.getResource("org.carlspring.maven",
-                                                                             "my-maven-plugin",
-                                                                             "1.0-SNAPSHOT");
-
-        WebResource webResource = client.resource(ARTIFACT_URL);
-        ClientResponse response = webResource.accept("application/xml").get(ClientResponse.class);
-
-        try
-        {
-            assertTrue("Failed to resolve artifact!", response.getStatus() == 200);
-        }
-        finally
-        {
-            launcher.getServer().stop();
-        }
+        launcher.stopServer();
     }
 
     @Test
@@ -132,21 +115,19 @@ public class JettyLauncherTest extends AbstractRepositoryUnitTestCase
             Thread.sleep(250l);
         }
 
-        Client client = Client.create();
+        System.out.println("Add artifact...");
+
+        ArtifactClient client = new ArtifactClient();
+        client.setContextBaseUrl("storages/storage0");
+        client.addArtifact(ArtifactUtils.getArtifactFromGAV("org.carlspring.maven:my-maven-plugin:1.0-SNAPSHOT"),
+                           "snapshots",
+                           10000L);
 
         System.out.println("Getting " + ARTIFACT_URL);
+        client.getArtifact(ArtifactUtils.getArtifactFromGAV("org.carlspring.maven:my-maven-plugin:1.0-SNAPSHOT"),
+                           "snapshots");
 
-        WebResource webResource = client.resource(ARTIFACT_URL);
-        ClientResponse response = webResource.accept("application/xml").get(ClientResponse.class);
-
-        try
-        {
-            assertTrue("Failed to resolve artifact!", response.getStatus() == 200);
-        }
-        finally
-        {
-            launcher.getServer().stop();
-        }
+        launcher.stopServer();
     }
 
 }

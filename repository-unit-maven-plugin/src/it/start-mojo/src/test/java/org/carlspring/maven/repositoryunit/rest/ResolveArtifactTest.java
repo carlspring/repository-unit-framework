@@ -46,7 +46,7 @@ public class ResolveArtifactTest
             throws Exception
     {
         ArtifactClient client = new ArtifactClient();
-        client.setContextBaseUrl("nexus/content/repositories");
+        client.setContextBaseUrl("storages/storage0");
         client.setPort(48080);
         client.addArtifact(ARTIFACT, REPOSITORY, 10000l);
 

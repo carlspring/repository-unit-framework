@@ -121,6 +121,7 @@
             <groupId>org.carlspring.strongbox</groupId>
             <artifactId>strongbox-webapp</artifactId>
             <version>${version.strongbox}</version>
+            <scope>provided</scope>
             <type>war</type>
         </dependency>
 

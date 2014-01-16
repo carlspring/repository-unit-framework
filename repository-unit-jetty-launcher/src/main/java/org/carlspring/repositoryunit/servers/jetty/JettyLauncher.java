@@ -41,6 +41,10 @@ public class JettyLauncher
         context.setResourceBase(getBasedir());
         context.setContextPath(getContextPath());
         context.setParentLoaderPriority(true);
+        final File dir = new File("target/jetty/tmp");
+        dir.mkdirs();
+
+        context.setTempDirectory(dir);
 
         server.setHandler(context);
 
@@ -56,6 +60,11 @@ public class JettyLauncher
         context.setWar(getWar());
         context.setContextPath(getContextPath());
         context.setParentLoaderPriority(true);
+        final File dir = new File("target/jetty/tmp");
+        dir.mkdirs();
+
+        context.setTempDirectory(dir);
+        context.setExtractWAR(true);
 
         server.setHandler(context);
 
@@ -132,4 +141,13 @@ public class JettyLauncher
         this.server = server;
     }
 
+    public void stopServer()
+            throws Exception
+    {
+        getServer().stop();
+        while (!getServer().isStopped())
+        {
+            Thread.sleep(500);
+        }
+    }
 }
