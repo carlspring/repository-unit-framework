@@ -17,7 +17,7 @@
         
         <version.strongbox>1.0-SNAPSHOT</version.strongbox>
         <version.grizzly>1.9.9</version.grizzly>
-        <version.jersey>1.17.1</version.jersey>
+        <version.jersey>1.18</version.jersey>
         <version.jetty>9.1.0.M0</version.jetty>
         <version.lucene>4.0.0</version.lucene>
         <version.maven>3.0.5</version.maven>
@@ -142,7 +142,7 @@
             <dependency>
                 <groupId>com.thoughtworks.xstream</groupId>
                 <artifactId>xstream</artifactId>
-                <version>1.4.4</version>
+                <version>1.4.7</version>
             </dependency>
 
             <dependency>
